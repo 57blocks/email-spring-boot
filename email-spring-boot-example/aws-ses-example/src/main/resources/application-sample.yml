@@ -1,0 +1,28 @@
+cloud:
+  aws:
+    region:
+      static: us-east-2
+    credentials:
+      accessKey: accessKey
+      secretKey: secretKey
+
+io.57blocks.email:
+  enabled: true
+  template:
+    prefix: /email/
+    message_base_name: messages
+    html:
+      pattern: html/*
+      suffix: .html
+      character_encoding: UTF-8
+      cacheable: false
+    text:
+      pattern: text/*
+      suffix: .txt
+      character_encoding: UTF-8
+      cacheable: false
+    subject:
+      pattern: subject/*
+      suffix: .txt
+      character_encoding: UTF-8
+      cacheable: false

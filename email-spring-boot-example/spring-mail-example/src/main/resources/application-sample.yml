@@ -1,0 +1,31 @@
+spring.mail:
+  host: email-smtp.us-east-2.amazonaws.com
+  username: username
+  password: password
+  properties:
+    mail.transport.protocol: smtp
+    mail.smtp.port: 25
+    mail.smtp.auth: true
+    mail.smtp.starttls.enable: true
+    mail.smtp.starttls.required: true
+
+io.57blocks.email:
+  enabled: true
+  template:
+    prefix: /email/
+    message_base_name: messages
+    html:
+      pattern: html/*
+      suffix: .html
+      character_encoding: UTF-8
+      cacheable: false
+    text:
+      pattern: text/*
+      suffix: .txt
+      character_encoding: UTF-8
+      cacheable: false
+    subject:
+      pattern: subject/*
+      suffix: .txt
+      character_encoding: UTF-8
+      cacheable: false
