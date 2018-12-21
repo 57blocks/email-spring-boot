@@ -1,5 +1,6 @@
 package io._57blocks.email.config;
 
+import io._57blocks.email.DummyEmailServiceImpl;
 import io._57blocks.email.EmailService;
 import io._57blocks.email.EmailServiceImpl;
 import io._57blocks.email.config.properties.EmailServiceProperties;
@@ -24,7 +25,6 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @Configuration
 @ConditionalOnClass(EmailService.class)
 @EnableConfigurationProperties(EmailServiceProperties.class)
-@ConditionalOnProperty(prefix = "io.57blocks.email", value = "enabled", havingValue = "true")
 public class EmailServiceAutoConfig {
 
   @Autowired
@@ -80,10 +80,15 @@ public class EmailServiceAutoConfig {
   }
 
   @Bean
-  @Primary
   @ConditionalOnMissingBean
   @ConditionalOnProperty(prefix = "io.57blocks.email", value = "enabled", havingValue = "true")
   public EmailService htmlEmailService() {
     return new EmailServiceImpl(mailSender, emailTemplateEngine(), properties);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public EmailService dummyEmailService() {
+    return new DummyEmailServiceImpl();
   }
 }
