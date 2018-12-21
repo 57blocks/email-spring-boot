@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.57blocks</groupId>
+  <artifactId>email-spring-boot</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>email-spring-boot</name>
+  <description>
+    email-spring-boot provide a convenient approach to integrate email service by pre-defined
+    configuration. It supports both text and html format template.
+  </description>
+
+  <modules>
+    <module>email-spring-boot-starter</module>
+    <module>email-spring-boot-example</module>
+  </modules>
+</project>
