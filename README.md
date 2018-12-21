@@ -12,10 +12,10 @@ Edit `pom.xml`, add the starter:
 </dependency>
 ```
 ### Configure the JavaMailSender
-By default, this starter can benefit from `spring-boot-email-starter` by using `SMTP` protocol 
+By default, this starter can benefit from `spring-boot-starter-mail` by using `SMTP` protocol 
 or `JNDI` to sending out emails, without other dependencies.
 
-#### Default `spring-boot-email-starter` Configuration
+#### Default `spring-boot-starter-mail` Configuration
 Edit `application.yml`, add the following properties:
 ```yaml
 spring.mail:
@@ -121,7 +121,7 @@ public class GreetingService {
 ```
 
 ### Example
-- [spring-mail-example](./email-spring-boot-example/spring-mail-example): build on `spring-boot-mail-starter`.
+- [spring-mail-example](./email-spring-boot-example/spring-mail-example): build on `spring-boot-starter-mail`.
 - [aws-ses-example](./email-spring-boot-example/aws-ses-example): build on `spring-cloud-aws-starter` and `aws-sdk-java-ses`.
 
 
