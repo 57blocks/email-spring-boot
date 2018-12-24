@@ -15,8 +15,32 @@
     configuration. It supports both text and html format template.
   </description>
 
+  <properties>
+    <jgitflow-maven-plugin.version>1.0-m5.1</jgitflow-maven-plugin.version>
+  </properties>
+
   <modules>
     <module>email-spring-boot-starter</module>
     <module>email-spring-boot-example</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>external.atlassian.jgitflow</groupId>
+        <artifactId>jgitflow-maven-plugin</artifactId>
+        <version>${jgitflow-maven-plugin.version}</version>
+        <configuration>
+          <allowSnapshots>true</allowSnapshots>
+          <flowInitContext>
+            <masterBranchName>master</masterBranchName>
+            <developBranchName>develop</developBranchName>
+            <featureBranchPrefix>feature/</featureBranchPrefix>
+            <releaseBranchPrefix>release/</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+          </flowInitContext>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
