@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.TemplateEngine;
@@ -81,13 +80,15 @@ public class EmailServiceAutoConfig {
 
   @Bean
   @ConditionalOnMissingBean
-  @ConditionalOnProperty(prefix = "io.57blocks.email", value = "enabled", havingValue = "true")
+  @ConditionalOnProperty(prefix = "io.57blocks.email", value = "enabled", havingValue = "true",
+      matchIfMissing = true)
   public EmailService htmlEmailService() {
     return new EmailServiceImpl(mailSender, emailTemplateEngine(), properties);
   }
 
   @Bean
   @ConditionalOnMissingBean
+  @ConditionalOnProperty(prefix = "io.57blocks.email", value = "enabled", havingValue = "false")
   public EmailService dummyEmailService() {
     return new DummyEmailServiceImpl();
   }
