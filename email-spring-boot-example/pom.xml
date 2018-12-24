@@ -19,6 +19,7 @@
 
   <properties>
     <jgitflow-maven-plugin.version>1.0-m5.1</jgitflow-maven-plugin.version>
+    <java-doc-plugin.version>2.9.1</java-doc-plugin.version>
   </properties>
 
   <modules>
@@ -42,6 +43,15 @@
             <releaseBranchPrefix>release/</releaseBranchPrefix>
             <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
           </flowInitContext>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${java-doc-plugin.version}</version>
+        <configuration>
+          <skip>true</skip>
         </configuration>
       </plugin>
     </plugins>
