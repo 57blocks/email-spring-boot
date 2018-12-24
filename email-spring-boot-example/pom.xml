@@ -18,8 +18,34 @@
 	<name>email-spring-boot-example</name>
 	<description>Demo project for Spring Boot</description>
 
+  <properties>
+    <jgitflow-maven-plugin.version>1.0-m5.1</jgitflow-maven-plugin.version>
+  </properties>
+
   <modules>
     <module>spring-mail-example</module>
     <module>aws-ses-example</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>external.atlassian.jgitflow</groupId>
+        <artifactId>jgitflow-maven-plugin</artifactId>
+        <version>${jgitflow-maven-plugin.version}</version>
+        <configuration>
+          <allowSnapshots>true</allowSnapshots>
+          <noDeploy>true</noDeploy>
+          <flowInitContext>
+            <masterBranchName>master</masterBranchName>
+            <developBranchName>develop</developBranchName>
+            <featureBranchPrefix>feature/</featureBranchPrefix>
+            <releaseBranchPrefix>release/</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+          </flowInitContext>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
 </project>

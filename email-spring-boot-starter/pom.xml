@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.57blocks</groupId>
   <artifactId>email-spring-boot-starter</artifactId>
@@ -12,6 +13,8 @@
     <java.version>1.8</java.version>
     <thymeleaf.spring5.version>3.0.11.RELEASE</thymeleaf.spring5.version>
     <thymeleaf.java8time.version>3.0.2.RELEASE</thymeleaf.java8time.version>
+
+    <jgitflow-maven-plugin.version>1.0-m5.1</jgitflow-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -75,19 +78,23 @@
           <showWarnings>true</showWarnings>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>external.atlassian.jgitflow</groupId>
+        <artifactId>jgitflow-maven-plugin</artifactId>
+        <version>${jgitflow-maven-plugin.version}</version>
+        <configuration>
+          <allowSnapshots>true</allowSnapshots>
+          <noDeploy>true</noDeploy>
+          <flowInitContext>
+            <masterBranchName>master</masterBranchName>
+            <developBranchName>develop</developBranchName>
+            <featureBranchPrefix>feature/</featureBranchPrefix>
+            <releaseBranchPrefix>release/</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+          </flowInitContext>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-
-  <distributionManagement>
-    <repository>
-      <id>release</id>
-      <name>libs-release</name>
-      <url>https://prod-nexus.57blocks.com:8443/repository/maven-releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>libs-snapshot</name>
-      <url>https://prod-nexus.57blocks.com:8443/repository/maven-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
 </project>
