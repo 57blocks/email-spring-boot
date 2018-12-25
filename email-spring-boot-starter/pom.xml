@@ -83,7 +83,6 @@
         <artifactId>gitflow-maven-plugin</artifactId>
         <version>${gitflow-maven-plugin.version}</version>
         <configuration>
-          <pushRemote>false</pushRemote>
           <versionDigitToIncrement>1</versionDigitToIncrement>
           <versionsForceUpdate>true</versionsForceUpdate>
         </configuration>
