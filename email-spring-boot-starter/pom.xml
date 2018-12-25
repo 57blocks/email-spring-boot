@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.57blocks</groupId>
   <artifactId>email-spring-boot-starter</artifactId>
-  <version>0.0.1</version>
+  <version>0.1.0</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,7 +12,7 @@
     <thymeleaf.spring5.version>3.0.11.RELEASE</thymeleaf.spring5.version>
     <thymeleaf.java8time.version>3.0.2.RELEASE</thymeleaf.java8time.version>
 
-    <jgitflow-maven-plugin.version>1.0-m5.1</jgitflow-maven-plugin.version>
+    <gitflow-maven-plugin.version>1.11.0</gitflow-maven-plugin.version>
     <java-doc-plugin.version>2.9.1</java-doc-plugin.version>
   </properties>
 
@@ -79,19 +79,12 @@
       </plugin>
 
       <plugin>
-        <groupId>external.atlassian.jgitflow</groupId>
-        <artifactId>jgitflow-maven-plugin</artifactId>
-        <version>${jgitflow-maven-plugin.version}</version>
+        <groupId>com.amashchenko.maven.plugin</groupId>
+        <artifactId>gitflow-maven-plugin</artifactId>
+        <version>${gitflow-maven-plugin.version}</version>
         <configuration>
-          <allowSnapshots>true</allowSnapshots>
-          <noDeploy>true</noDeploy>
-          <flowInitContext>
-            <masterBranchName>master</masterBranchName>
-            <developBranchName>develop</developBranchName>
-            <featureBranchPrefix>feature/</featureBranchPrefix>
-            <releaseBranchPrefix>release/</releaseBranchPrefix>
-            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-          </flowInitContext>
+          <versionDigitToIncrement>1</versionDigitToIncrement>
+          <versionsForceUpdate>true</versionsForceUpdate>
         </configuration>
       </plugin>
 
