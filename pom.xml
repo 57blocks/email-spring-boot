@@ -33,6 +33,7 @@
         <configuration>
           <pushRemote>false</pushRemote>
           <versionDigitToIncrement>1</versionDigitToIncrement>
+          <versionsForceUpdate>true</versionsForceUpdate>
         </configuration>
       </plugin>
 
