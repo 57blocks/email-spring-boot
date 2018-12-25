@@ -18,7 +18,7 @@
 	<description>Demo project for Spring Boot</description>
 
   <properties>
-    <jgitflow-maven-plugin.version>1.0-m5.1</jgitflow-maven-plugin.version>
+    <gitflow-maven-plugin.version>1.11.0</gitflow-maven-plugin.version>
     <java-doc-plugin.version>2.9.1</java-doc-plugin.version>
   </properties>
 
@@ -30,19 +30,12 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>external.atlassian.jgitflow</groupId>
-        <artifactId>jgitflow-maven-plugin</artifactId>
-        <version>${jgitflow-maven-plugin.version}</version>
+        <groupId>com.amashchenko.maven.plugin</groupId>
+        <artifactId>gitflow-maven-plugin</artifactId>
+        <version>${gitflow-maven-plugin.version}</version>
         <configuration>
-          <allowSnapshots>true</allowSnapshots>
-          <noDeploy>true</noDeploy>
-          <flowInitContext>
-            <masterBranchName>master</masterBranchName>
-            <developBranchName>develop</developBranchName>
-            <featureBranchPrefix>feature/</featureBranchPrefix>
-            <releaseBranchPrefix>release/</releaseBranchPrefix>
-            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-          </flowInitContext>
+          <pushRemote>false</pushRemote>
+          <versionDigitToIncrement>1</versionDigitToIncrement>
         </configuration>
       </plugin>
 
