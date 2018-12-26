@@ -9,7 +9,6 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -80,16 +79,11 @@ public class EmailServiceAutoConfig {
 
   @Bean
   @ConditionalOnMissingBean
-  @ConditionalOnProperty(prefix = "io.57blocks.email", value = "enabled", havingValue = "true",
-      matchIfMissing = true)
   public EmailService htmlEmailService() {
-    return new EmailServiceImpl(mailSender, emailTemplateEngine(), properties);
-  }
-
-  @Bean
-  @ConditionalOnMissingBean
-  @ConditionalOnProperty(prefix = "io.57blocks.email", value = "enabled", havingValue = "false")
-  public EmailService dummyEmailService() {
-    return new DummyEmailServiceImpl();
+    if (properties.getEnabled()) {
+      return new EmailServiceImpl(mailSender, emailTemplateEngine(), properties);
+    } else {
+      return new DummyEmailServiceImpl();
+    }
   }
 }

@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.57blocks</groupId>
   <artifactId>email-spring-boot-starter</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -13,7 +13,8 @@
     <thymeleaf.java8time.version>3.0.2.RELEASE</thymeleaf.java8time.version>
 
     <gitflow-maven-plugin.version>1.11.0</gitflow-maven-plugin.version>
-    <java-doc-plugin.version>2.9.1</java-doc-plugin.version>
+    <java-doc-plugin.version>3.0.1</java-doc-plugin.version>
+    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
   </properties>
 
   <dependencies>
@@ -83,8 +84,12 @@
         <artifactId>gitflow-maven-plugin</artifactId>
         <version>${gitflow-maven-plugin.version}</version>
         <configuration>
+          <pushRemote>true</pushRemote>
           <versionDigitToIncrement>1</versionDigitToIncrement>
           <versionsForceUpdate>true</versionsForceUpdate>
+          <useSnapshotInHotfix>true</useSnapshotInHotfix>
+          <useSnapshotInRelease>true</useSnapshotInRelease>
+          <commitDevelopmentVersionAtStart>true</commitDevelopmentVersionAtStart>
         </configuration>
       </plugin>
 
@@ -93,9 +98,40 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${java-doc-plugin.version}</version>
         <configuration>
-          <skip>true</skip>
+          <breakiterator>true</breakiterator>
+          <charset>UTF-8</charset>
+          <docencoding>UTF-8</docencoding>
+          <encoding>UTF-8</encoding>
+          <failOnError>true</failOnError>
+          <show>protected</show>
+          <source>1.8</source>
+          <version>true</version>
         </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 </project>
