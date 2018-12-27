@@ -1,0 +1,42 @@
+language: java
+jdk:
+  - openjdk8
+
+## Build and verify
+install:
+  mvn clean install -DskipTests=true -Dgpg.skip -Dmaven.javadoc.skip=true -B -V
+
+script:
+  mvn clean verify -DskipTests=true -Dmaven.javadoc.skip=false -Dgpg.skip -B -U
+
+## Only build email-spring-boot-starter
+before_deploy:
+  - cd $BUILDING_FOLDER
+  - mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
+  - export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep -v '\[')
+  - echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
+  - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
+  - mvn --settings .settings.xml clean deploy -DskipTests=false -Dmaven.javadoc.skip=false -B -U
+
+## Create release in Github
+deploy:
+  provider: releases
+  api_key:
+    secure: im6enPaCVQ91auK17R1+hDiA2rhjDQEDZvv2wfJznqanJm4veuINK1Ak3TMlVJVzz2TixmEYtGTtGAOL/IwbylhjZKfpJJPeptZ9ztsKHXpdAdnAaPpnVgGAaW4FXksmxzlqRyB4xfY48MFpsHEzuhTYONvPTvvlJt4uUResR65g1h8/ypXsJMSHpzegvoVsYRevYfrJq1OUgI6UIKXtb9txIbGpwrN64r/gpWz8k6se2L9WXFP8q3wHp+RcDCa2RnWxsk/Q8fxcJrrxLt9JAnu+VYbiLRtNjNPrE/fcw7rCkC25deVWY+P+nzxI6P5pIZYE7mue0G5B6i5yZux+ZyWxMcdiB6J1G1MFiBYXVJUN9oqX4G9Q4soWDovzq+Z3R727fA1wBeMd1B1/DSBPen9GM4gXsZXGI910SUDDRfUbfhytDesu+k2F4WoJGjIjoAEE4B24uCYNMPqqFpUxXIGLLFQ6iB5tS0pVoqFmaWOBJkwTVK3w8tpMYlNxFUsc8iN+ayT5tVxGrYWtZhA740Kegu2sv5KZAYReG8IiP8V+SXB4meW2de11PvOji0VqnI6U8IGQ28JkAJPpV/DZUtrFn7qnDijioGnVGDnrW4UYbXMQvjOc+3WIMB4ooUgKI16rIxyiVpoGdhTeN8W+UjMwUJO0CGqz4g8/OP+iQ54=
+  file:
+    - "target/email-spring-boot-starter-$project_version.jar"
+    - "target/email-spring-boot-starter-$project_version-javadoc.jar"
+    - "target/email-spring-boot-starter-$project_version-sources.jar"
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: 57blocks/email-spring-boot
+  name: $project_version
+
+cache:
+  directories:
+    - ~/.m2/repository
+
+env:
+  global:
+    - BUILDING_FOLDER="`pwd`/email-spring-boot-starter"
