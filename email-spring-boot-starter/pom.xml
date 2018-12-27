@@ -7,7 +7,7 @@
 
   <groupId>io.57blocks</groupId>
   <artifactId>email-spring-boot-starter</artifactId>
-  <version>0.1.2-SNAPSHOT</version>
+  <version>0.1.2</version>
   <packaging>jar</packaging>
 
   <name>email-spring-boot-starter</name>
