@@ -1,10 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>io.57blocks</groupId>
   <artifactId>email-spring-boot-starter</artifactId>
   <version>0.1.2</version>
+  <packaging>jar</packaging>
+
+  <name>email-spring-boot-starter</name>
+  <description>
+    Email service based on spring-boot and provide an easy way to integrate spring-mail or aws ses.
+  </description>
+  <url>https://github.com/57blocks/email-spring-boot</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/57blocks/email-spring-boot</url>
+    <connection>scm:git:https://github.com/57blocks/email-spring-boot.git</connection>
+    <developerConnection>scm:git:https://github.com/57blocks/email-spring-boot.git</developerConnection>
+  </scm>
+
+  <developers>
+    <developer>
+      <name>Roy Xie</name>
+      <email>roy@57blocks.io</email>
+      <url>https://github.com/crazypisces</url>
+    </developer>
+    <developer>
+      <name>Troy Young</name>
+      <email>yongzhi.yang@57blocks.io</email>
+      <url>https://github.com/sgyyz</url>
+    </developer>
+  </developers>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,6 +52,8 @@
     <gitflow-maven-plugin.version>1.11.0</gitflow-maven-plugin.version>
     <java-doc-plugin.version>3.0.1</java-doc-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+    <nexus-staging-maven-plugin.version>1.6.2</nexus-staging-maven-plugin.version>
+    <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
   </properties>
 
   <dependencies>
@@ -132,6 +171,43 @@
         </executions>
       </plugin>
 
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>${nexus-staging-maven-plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>${maven-gpg-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 </project>
