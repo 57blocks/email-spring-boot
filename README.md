@@ -1,6 +1,6 @@
 [![Travis-CI](https://travis-ci.org/57blocks/email-spring-boot.svg?branch=master)](https://travis-ci.org/57blocks/email-spring-boot)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Maven Central](https://img.shields.io/maven-central/v/io.57blocks/email-spring-boot.svg)](https://search.maven.org/search?q=a:email-spring-boot)
+[![License: MIT](https://img.shields.io/github/license/57blocks/email-spring-boot.svg)](https://opensource.org/licenses/MIT)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.57blocks/email-spring-boot-starter/badge.svg)](https://search.maven.org/search?q=a:email-spring-boot-starter)
 # Email Spring Boot Starter
 Configure an email service ready for sending emails. Supporting templating with [thymeleaf](https://www.thymeleaf.org/).
 

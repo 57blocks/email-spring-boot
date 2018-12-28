@@ -1,1 +1,3 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io._57blocks.email.config.EmailServiceAutoConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io._57blocks.email.config.DummyEmailServiceAutoConfig,\
+io._57blocks.email.config.EmailServiceAutoConfig
