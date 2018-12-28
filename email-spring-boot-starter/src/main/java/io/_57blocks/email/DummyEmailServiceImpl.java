@@ -55,7 +55,7 @@ public class DummyEmailServiceImpl implements EmailService {
 
   private void printLog(String fromEmail, String template, Locale locale,
       Map<String, Object> ctx, String emailType, String[] attachmentNames,
-      String... recipientEmails) {
+      String[] recipientEmails) {
 
     log.warn("Currently email is not sent out due to application is using dummy EmailService. "
         + "If you want to send email out, please set 'io.57blocks.email.enabled=true'.");

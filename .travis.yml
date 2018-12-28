@@ -40,3 +40,13 @@ cache:
 env:
   global:
     - BUILDING_FOLDER="`pwd`/email-spring-boot-starter"
+
+notifications:
+  slack:
+    on_pull_requests: false
+    rooms:
+      secure: XcJQNlXiuwnpUnO6QjY+vtAsbgcZuLGWcBcfsFTo7Fco/bj3y+ECa/hnRuElGHRxh4GarsQKFp9+OTrFcWlXVAnmDNtLebvlnxL5llSuhth88YOotEkjcc1IQgd0hLHjYTvVLrCFF5QD+tKfbPzPpdGZ60csU9bS+VVfWCJn/T3s/eyKvJrW1e1fWoUf/MfKhp/sqlJcceVlgzHaHRREbJlka5nju9WbfJCUIolyTR+U+kaaPfAwzVdum5X6g5Dc4Egu+8nRudcu7YPN9R7xbuV3VEizfDhAiOPBHbS4xKzCtR+lJpAjrJEvyR6yG0xPH+iMo5v97tTv1jbLJAoR8QyMsNHcBlrCalzOfZIs6gi3o06IiksRlAvZgbj8dEaxXsQajZS6XLLUZYzonUy+BLfAtVbqKg6TczmEbpYbt6jLm0yCnhAFYugZq8acWeWUdYXn2TdPs5O5LA1/pRJpFz8Mic78fJW5q4W6jsulHz73MnDQUeVWoOzmlauGICVsqOd67xz/CfjJLdUYfB/xnAiPjorODKHoWJz4Tl5tULxKQ6gv3saDoeqNWZFbA/49fsLOphGca6lamKWfCXQZs+3XFFTcEaQyyvyE31A4hwo0zU9VQKOeLnVe/QAHpmrD3OwqfxczauX4zO3JOb1woynCqinh+NUSxTrdVHogjAo=
+    template:
+      - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}` by %{author}."
+      - "Execution time: *%{duration}*"
+      - "Commit message: %{commit_message}"
