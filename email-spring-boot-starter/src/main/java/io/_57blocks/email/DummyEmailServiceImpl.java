@@ -25,7 +25,7 @@ public class DummyEmailServiceImpl implements EmailService {
   public void sendTextEmailWithAttachments(String fromEmail, String template, Locale locale,
       Map<String, Object> ctx, Attachment[] attachments, String... recipientEmails)
       throws MessagingException {
-    printLog(fromEmail, template, locale, ctx, HTML_EMAIL, extractAttachmentNames(attachments),
+    printLog(fromEmail, template, locale, ctx, HTML_EMAIL, attachments,
         recipientEmails);
   }
 
@@ -39,22 +39,12 @@ public class DummyEmailServiceImpl implements EmailService {
   public void sendHtmlEmailWithAttachments(String fromEmail, String template, Locale locale,
       Map<String, Object> ctx, Attachment[] attachments, String... recipientEmails)
       throws MessagingException {
-    printLog(fromEmail, template, locale, ctx, TEXT_EMAIL, extractAttachmentNames(attachments),
+    printLog(fromEmail, template, locale, ctx, TEXT_EMAIL, attachments,
         recipientEmails);
   }
 
-  private String[] extractAttachmentNames(Attachment[] attachments) {
-    List<String> attachmentNames = new ArrayList<>();
-    if (attachments != null) {
-      attachmentNames = Arrays.asList(attachments).stream()
-          .map(Attachment::getFilename)
-          .collect(Collectors.toList());
-    }
-    return attachmentNames.toArray(new String[attachmentNames.size()]);
-  }
-
   private void printLog(String fromEmail, String template, Locale locale,
-      Map<String, Object> ctx, String emailType, String[] attachmentNames,
+      Map<String, Object> ctx, String emailType, Attachment[] attachments,
       String[] recipientEmails) {
 
     log.warn("Currently email is not sent out due to application is using dummy EmailService. "
@@ -65,8 +55,18 @@ public class DummyEmailServiceImpl implements EmailService {
         recipientEmails, template, locale);
     log.info("=====================");
     log.info("Variables: {}", ctx);
-    log.info("Attachments: {}", attachmentNames);
+    log.info("Attachments: {}", extractAttachmentNames(attachments));
     log.info("=====================");
 
+  }
+
+  private String[] extractAttachmentNames(Attachment[] attachments) {
+    List<String> attachmentNames = new ArrayList<>();
+    if (attachments != null) {
+      attachmentNames = Arrays.asList(attachments).stream()
+          .map(Attachment::getFilename)
+          .collect(Collectors.toList());
+    }
+    return attachmentNames.toArray(new String[attachmentNames.size()]);
   }
 }
