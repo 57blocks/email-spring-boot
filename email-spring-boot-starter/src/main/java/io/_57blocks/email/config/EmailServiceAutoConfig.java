@@ -23,7 +23,9 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @Configuration
 @ConditionalOnMissingBean(EmailService.class)
 @ConditionalOnBean(JavaMailSender.class)
-@AutoConfigureAfter(DummyEmailServiceAutoConfig.class)
+@AutoConfigureAfter(name = {"io._57blocks.email.config.DummyEmailServiceAutoConfig",
+    "org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration",
+    "org.springframework.cloud.aws.autoconfigure.mail.MailSenderAutoConfiguration"})
 @EnableConfigurationProperties(EmailServiceProperties.class)
 public class EmailServiceAutoConfig {
 

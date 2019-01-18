@@ -115,7 +115,7 @@ public class GreetingService {
   public void sendEmail() {
     try {
       Map<String, Object> ctx = ImmutableMap.of("name", "Mr. Smith");
-      emailService.sendHtmlMail("Sender <sender@somecompany.com>", "html/greeting", Locale.CHINESE, ctx, "Mr. Smith <smith@somedomain.com>");
+      emailService.sendHtmlMail("Sender <sender@somecompany.com>", "greeting", Locale.CHINESE, ctx, "Mr. Smith <smith@somedomain.com>");
     } catch (MessagingException e) {
       // ignored
     }

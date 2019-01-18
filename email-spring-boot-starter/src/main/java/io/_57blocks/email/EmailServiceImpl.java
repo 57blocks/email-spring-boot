@@ -38,8 +38,7 @@ public class EmailServiceImpl implements EmailService {
       Map<String, Object> ctx, Attachment[] attachments, String... recipientEmails)
       throws MessagingException {
 
-    MimeMessage attachmentMimeMessage = createMimeMessage(fromEmail, template,
-        this::getTextSubjectTemplate, locale,
+    MimeMessage attachmentMimeMessage = createMimeMessage(fromEmail, template, locale,
         ctx, recipientEmails, attachments, false);
 
     sendMail(attachmentMimeMessage);
@@ -56,8 +55,7 @@ public class EmailServiceImpl implements EmailService {
       Map<String, Object> ctx, Attachment[] attachments, String... recipientEmails)
       throws MessagingException {
 
-    MimeMessage attachmentMimeMessage = createMimeMessage(fromEmail, template,
-        this::getHtmlSubjectTemplate, locale,
+    MimeMessage attachmentMimeMessage = createMimeMessage(fromEmail, template, locale,
         ctx, recipientEmails, attachments, true);
 
     sendMail(attachmentMimeMessage);
@@ -68,7 +66,6 @@ public class EmailServiceImpl implements EmailService {
   }
 
   private MimeMessage createMimeMessage(String fromEmail, String template,
-      Function<String, String> subjectTemplateFunction,
       Locale locale,
       Map<String, Object> vars, String[] recipientEmails, Attachment[] attachments, boolean isHtml)
       throws MessagingException {
@@ -87,13 +84,13 @@ public class EmailServiceImpl implements EmailService {
     messageHelper.setTo(recipientEmails);
 
     // Create subject using Thymeleaf
-    String subjectTemplate = subjectTemplateFunction.apply(template);
+    String subjectTemplate = getSubjectTemplate(template);
     final String subject = this.templateEngine.process(subjectTemplate, ctx);
     messageHelper.setSubject(subject);
 
     // Create the HTML body using Thymeleaf
-    final String htmlContent = this.templateEngine.process(template, ctx);
-    messageHelper.setText(htmlContent, isHtml);
+    final String content = this.templateEngine.process(getContentTemplate(template, isHtml), ctx);
+    messageHelper.setText(content, isHtml);
 
     if (hasAttachments) {
       processAttachments(messageHelper, attachments);
@@ -116,27 +113,27 @@ public class EmailServiceImpl implements EmailService {
     }
   }
 
-  private String getSubjectTemplate(String template, String contentPattern,
-      String subjectPattern) {
-    contentPattern = contentPattern.substring(0, contentPattern.indexOf('/'));
-    subjectPattern = subjectPattern.substring(0, subjectPattern.indexOf('/'));
 
-    return template.replace(contentPattern, subjectPattern);
+  private String getSubjectTemplate(String template) {
+
+    String subjectPattern = properties.getTemplate().getSubject().getPattern();
+    return concatWithPrefix(subjectPattern, template);
   }
 
-  private String getHtmlSubjectTemplate(String template) {
+  private String getContentTemplate(String template, boolean isHtml) {
 
-    String htmlPattern = properties.getTemplate().getHtml().getPattern();
-    String subjectPattern = properties.getTemplate().getSubject().getPattern();
+    String templatePattern = properties.getTemplate().getText().getPattern();
+    if (isHtml) {
+      templatePattern = properties.getTemplate().getHtml().getPattern();
+    }
 
-    return getSubjectTemplate(template, htmlPattern, subjectPattern);
+    return concatWithPrefix(templatePattern, template);
   }
 
-  private String getTextSubjectTemplate(String template) {
-
-    String textPattern = properties.getTemplate().getText().getPattern();
-    String subjectPattern = properties.getTemplate().getSubject().getPattern();
-
-    return getSubjectTemplate(template, textPattern, subjectPattern);
+  private String concatWithPrefix(String prefix, String template) {
+    if (prefix.indexOf('/') > 0) {
+      prefix = prefix.substring(0, prefix.indexOf('/'));
+    }
+    return prefix + "/" + template;
   }
 }
