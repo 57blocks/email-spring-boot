@@ -2,12 +2,9 @@ language: java
 jdk:
   - openjdk8
 
-## Build and verify
-install:
-  mvn clean install -DskipTests=true -Dgpg.skip -Dmaven.javadoc.skip=true -B -V
-
+## Building and testing
 script:
-  mvn clean verify -DskipTests=true -Dmaven.javadoc.skip=false -Dgpg.skip -B -U
+  mvn clean install
 
 ## Only build email-spring-boot-starter
 before_deploy:
@@ -16,7 +13,7 @@ before_deploy:
   - export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep -v '\[')
   - echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
   - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
-  - mvn --settings .settings.xml clean deploy -DskipTests=false -Dmaven.javadoc.skip=false -B -U
+  - mvn --settings .settings.xml clean deploy -DskipTests=false -Dmaven.javadoc.skip=false -B -U -Prelease
 
 ## Create release in Github
 deploy:
@@ -40,3 +37,13 @@ cache:
 env:
   global:
     - BUILDING_FOLDER="`pwd`/email-spring-boot-starter"
+
+notifications:
+  slack:
+    on_pull_requests: false
+    rooms:
+      secure: XcJQNlXiuwnpUnO6QjY+vtAsbgcZuLGWcBcfsFTo7Fco/bj3y+ECa/hnRuElGHRxh4GarsQKFp9+OTrFcWlXVAnmDNtLebvlnxL5llSuhth88YOotEkjcc1IQgd0hLHjYTvVLrCFF5QD+tKfbPzPpdGZ60csU9bS+VVfWCJn/T3s/eyKvJrW1e1fWoUf/MfKhp/sqlJcceVlgzHaHRREbJlka5nju9WbfJCUIolyTR+U+kaaPfAwzVdum5X6g5Dc4Egu+8nRudcu7YPN9R7xbuV3VEizfDhAiOPBHbS4xKzCtR+lJpAjrJEvyR6yG0xPH+iMo5v97tTv1jbLJAoR8QyMsNHcBlrCalzOfZIs6gi3o06IiksRlAvZgbj8dEaxXsQajZS6XLLUZYzonUy+BLfAtVbqKg6TczmEbpYbt6jLm0yCnhAFYugZq8acWeWUdYXn2TdPs5O5LA1/pRJpFz8Mic78fJW5q4W6jsulHz73MnDQUeVWoOzmlauGICVsqOd67xz/CfjJLdUYfB/xnAiPjorODKHoWJz4Tl5tULxKQ6gv3saDoeqNWZFbA/49fsLOphGca6lamKWfCXQZs+3XFFTcEaQyyvyE31A4hwo0zU9VQKOeLnVe/QAHpmrD3OwqfxczauX4zO3JOb1woynCqinh+NUSxTrdVHogjAo=
+    template:
+      - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}` by %{author}."
+      - "Execution time: *%{duration}*"
+      - "Commit message: %{commit_message}"

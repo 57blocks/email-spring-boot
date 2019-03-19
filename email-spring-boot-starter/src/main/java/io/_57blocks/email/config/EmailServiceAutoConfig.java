@@ -1,13 +1,13 @@
 package io._57blocks.email.config;
 
-import io._57blocks.email.DummyEmailServiceImpl;
 import io._57blocks.email.EmailService;
 import io._57blocks.email.EmailServiceImpl;
 import io._57blocks.email.config.properties.EmailServiceProperties;
 import io._57blocks.email.config.properties.EmailServiceProperties.TemplateResolverProperties;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,11 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
-@ConditionalOnClass(EmailService.class)
+@ConditionalOnMissingBean(EmailService.class)
+@ConditionalOnBean(JavaMailSender.class)
+@AutoConfigureAfter(name = {"io._57blocks.email.config.DummyEmailServiceAutoConfig",
+    "org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration",
+    "org.springframework.cloud.aws.autoconfigure.mail.MailSenderAutoConfiguration"})
 @EnableConfigurationProperties(EmailServiceProperties.class)
 public class EmailServiceAutoConfig {
 
@@ -80,10 +84,6 @@ public class EmailServiceAutoConfig {
   @Bean
   @ConditionalOnMissingBean
   public EmailService htmlEmailService() {
-    if (properties.getEnabled()) {
-      return new EmailServiceImpl(mailSender, emailTemplateEngine(), properties);
-    } else {
-      return new DummyEmailServiceImpl();
-    }
+    return new EmailServiceImpl(mailSender, emailTemplateEngine(), properties);
   }
 }
