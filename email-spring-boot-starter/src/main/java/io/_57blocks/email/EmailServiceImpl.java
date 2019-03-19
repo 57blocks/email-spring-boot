@@ -1,15 +1,19 @@
 package io._57blocks.email;
 
 import io._57blocks.email.config.properties.EmailServiceProperties;
+import io._57blocks.email.params.Attachment;
+import io._57blocks.email.params.Message;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Function;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.util.CollectionUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -24,6 +28,20 @@ public class EmailServiceImpl implements EmailService {
     this.mailSender = mailSender;
     this.templateEngine = templateEngine;
     this.properties = properties;
+  }
+
+  @Override
+  public void sendTextEmail(Message message) throws MessagingException {
+    if (message == null) {
+      throw new IllegalArgumentException("Message can not be null.");
+    }
+
+    String[] recipients = getRecipients(message);
+    Attachment[] attachments = getAttachments(message);
+
+    sendTextEmailWithAttachments(message.getFrom(), message.getTemplate(), message.getLocale(),
+        message.getContext(), attachments,
+        recipients);
   }
 
   @Override
@@ -42,6 +60,20 @@ public class EmailServiceImpl implements EmailService {
         ctx, recipientEmails, attachments, false);
 
     sendMail(attachmentMimeMessage);
+  }
+
+  @Override
+  public void sendHtmlEmail(Message message) throws MessagingException {
+    if (message == null) {
+      throw new IllegalArgumentException("Message can not be null.");
+    }
+
+    String[] recipients = getRecipients(message);
+    Attachment[] attachments = getAttachments(message);
+
+    sendHtmlEmailWithAttachments(message.getFrom(), message.getTemplate(), message.getLocale(),
+        message.getContext(), attachments,
+        recipients);
   }
 
   @Override
@@ -135,5 +167,23 @@ public class EmailServiceImpl implements EmailService {
       prefix = prefix.substring(0, prefix.indexOf('/'));
     }
     return prefix + "/" + template;
+  }
+
+  private Attachment[] getAttachments(Message message) {
+    List<Attachment> attachments = message.getAttachments();
+    if (CollectionUtils.isEmpty(attachments)) {
+      return null;
+    }
+
+    return attachments.toArray(new Attachment[attachments.size()]);
+  }
+
+  private String[] getRecipients(Message message) {
+    List<String> recipients = message.getRecipients();
+    if (CollectionUtils.isEmpty(recipients)) {
+      throw new IllegalArgumentException("Recipients can not be empty.");
+    }
+
+    return recipients.toArray(new String[recipients.size()]);
   }
 }

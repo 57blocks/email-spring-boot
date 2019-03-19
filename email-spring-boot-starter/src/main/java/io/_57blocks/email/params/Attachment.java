@@ -1,4 +1,4 @@
-package io._57blocks.email;
+package io._57blocks.email.params;
 
 import lombok.Data;
 

@@ -26,6 +26,9 @@ public class SesExampleApplication {
       // send by text template
       greetingService.sendTextEmail();
 
+      // send by text template in message format
+      greetingService.sendTextEmailByMessage();
+
     };
   }
 }

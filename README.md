@@ -120,6 +120,23 @@ public class GreetingService {
       // ignored
     }
   }
+  
+  public void sendEmailByMessageFormat() {
+      try {
+        Map<String, Object> ctx = ImmutableMap.of("name", "Mr. Smith");
+        Message message = new MessageBuilder()
+            .from("Sender <sender@somecompany.com>")
+            .template("greeting")
+            .locale(Locale.CHINESE)
+            .context(ctx)
+            .recipients(Arrays.asList("Mr. Smith <smith@somedomain.com>"))
+            .build();
+        
+        emailService.sendHtmlMail(message);
+      } catch (MessagingException e) {
+        // ignored
+      }
+    }
 }
 ```
 
