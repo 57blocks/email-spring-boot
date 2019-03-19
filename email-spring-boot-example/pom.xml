@@ -12,7 +12,7 @@
 
 	<groupId>io.57blocks</groupId>
 	<artifactId>email-spring-boot-example</artifactId>
-	<version>0.2.0</version>
+	<version>0.3.0-SNAPSHOT</version>
 
 	<name>email-spring-boot-example</name>
 	<description>Demo project for Spring Boot</description>
